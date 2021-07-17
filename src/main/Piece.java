@@ -17,6 +17,8 @@ public enum Piece {
 	private BufferedImage image;
 	private boolean team; // true = white // false = black;
 
+	private boolean check = false;
+
 	private Piece(BufferedImage img, boolean isWhiteTeam) {
 
 		image = img;
@@ -331,6 +333,25 @@ public enum Piece {
 		if (pos[1] + 1 <= 7)
 			addMove(moves, pos[0], pos[1] + 1);
 
+		// test if checkmate
+
+		check = false;
+
+		if (team) {
+			if (Table.getSquare(pos[0], pos[1]).isWhiteThreat())
+				check = true;
+		} else {
+			if (Table.getSquare(pos[0], pos[1]).isBlackThreat())
+				check = true;
+		}
+
+		if (check) {
+			if (moves.isEmpty())
+				System.out.println("CHECKMATE");
+			else
+				System.out.println("CHECK");
+		}
+
 	}
 
 	/**
@@ -346,14 +367,44 @@ public enum Piece {
 	 */
 	private boolean addMove(LinkedList<int[]> moves, int x, int y) {
 
+		boolean threat = false;
+
+		if (team) {
+			if (Table.getSquare(x, y).isWhiteThreat())
+				threat = true;
+		} else {
+			if (Table.getSquare(x, y).isBlackThreat())
+				threat = true;
+		}
+
 		Piece other = Table.getSquare(x, y).getPiece();
 		if (other == null) {
 
-			moves.add(new int[] { x, y });
+			if (this == wKing || this == bKing) {
+				if (!threat)
+					moves.add(new int[] { x, y });
+			} else {
+				moves.add(new int[] { x, y });
+			}
+
+			if (team)
+				Table.getSquare(x, y).setBlackThreat(true);
+			else
+				Table.getSquare(x, y).setWhiteThreat(true);
 
 		} else if (other.team != team) {
 
-			moves.add(new int[] { x, y });
+			if (this == wKing || this == bKing) {
+				if (!threat)
+					moves.add(new int[] { x, y });
+			} else {
+				moves.add(new int[] { x, y });
+			}
+
+			if (team)
+				Table.getSquare(x, y).setBlackThreat(true);
+			else
+				Table.getSquare(x, y).setWhiteThreat(true);
 
 			return false;
 

@@ -67,6 +67,7 @@ public class Table extends JComponent {
 
 				table[x][y].setEnabled(b);
 				table[x][y].resetBackgroundColor();
+				table[x][y].resetThreat();
 
 			}
 		}

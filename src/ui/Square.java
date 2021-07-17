@@ -18,8 +18,8 @@ public class Square extends JComponent {
 	private Color normalColor;
 	private Color moveColor;
 
-	private boolean whiteTreat = false;
-	private boolean blackTreat = false;
+	private boolean whiteThreat = false;
+	private boolean blackThreat = false;
 
 	private Piece piece;
 	private int[] pos; // 0 = x; 1 = y;
@@ -124,6 +124,27 @@ public class Square extends JComponent {
 
 	public LinkedList<int[]> getMoves() {
 		return moves;
+	}
+
+	public void setWhiteThreat(boolean b) {
+		whiteThreat = b;
+	}
+
+	public void setBlackThreat(boolean b) {
+		blackThreat = b;
+	}
+
+	public void resetThreat() {
+		whiteThreat = false;
+		blackThreat = false;
+	}
+
+	public boolean isWhiteThreat() {
+		return whiteThreat;
+	}
+
+	public boolean isBlackThreat() {
+		return blackThreat;
 	}
 
 }
