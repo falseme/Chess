@@ -133,6 +133,8 @@ public enum Piece {
 
 		if (pos[0] > 0) {
 
+			threatSquare(pos[0] - 1, pos[1] + 1 * way);
+
 			Piece other = Table.getSquare(pos[0] - 1, pos[1] + 1 * way).getPiece();
 
 			if (other != null)
@@ -142,6 +144,8 @@ public enum Piece {
 		}
 
 		if (pos[0] < 7) {
+
+			threatSquare(pos[0] + 1, pos[1] + 1 * way);
 
 			Piece other = Table.getSquare(pos[0] + 1, pos[1] + 1 * way).getPiece();
 
@@ -371,10 +375,7 @@ public enum Piece {
 				moves.add(new int[] { x, y });
 			}
 
-			if (team)
-				Table.getSquare(x, y).setBlackThreat(true);
-			else
-				Table.getSquare(x, y).setWhiteThreat(true);
+			threatSquare(x, y);
 
 		} else if (other.team != team) {
 
@@ -385,10 +386,7 @@ public enum Piece {
 				moves.add(new int[] { x, y });
 			}
 
-			if (team)
-				Table.getSquare(x, y).setBlackThreat(true);
-			else
-				Table.getSquare(x, y).setWhiteThreat(true);
+			threatSquare(x, y);
 
 			return false;
 
@@ -417,6 +415,22 @@ public enum Piece {
 		}
 
 		return false;
+
+	}
+
+	/**
+	 * Given the coords, especifies that square is threatened by a team so as to be
+	 * cheked later by each king.
+	 * 
+	 * @param x
+	 * @param y
+	 */
+	private void threatSquare(int x, int y) {
+
+		if (team)
+			Table.getSquare(x, y).setBlackThreat(true);
+		else
+			Table.getSquare(x, y).setWhiteThreat(true);
 
 	}
 
