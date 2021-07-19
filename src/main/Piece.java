@@ -17,6 +17,8 @@ public enum Piece {
 	private BufferedImage image;
 	private boolean team; // true = white // false = black;
 
+	private boolean check = false;
+
 	private Piece(BufferedImage img, boolean isWhiteTeam) {
 
 		image = img;
@@ -131,6 +133,8 @@ public enum Piece {
 
 		if (pos[0] > 0) {
 
+			threatSquare(pos[0] - 1, pos[1] + 1 * way);
+
 			Piece other = Table.getSquare(pos[0] - 1, pos[1] + 1 * way).getPiece();
 
 			if (other != null)
@@ -140,6 +144,8 @@ public enum Piece {
 		}
 
 		if (pos[0] < 7) {
+
+			threatSquare(pos[0] + 1, pos[1] + 1 * way);
 
 			Piece other = Table.getSquare(pos[0] + 1, pos[1] + 1 * way).getPiece();
 
@@ -331,6 +337,17 @@ public enum Piece {
 		if (pos[1] + 1 <= 7)
 			addMove(moves, pos[0], pos[1] + 1);
 
+		// test if checkmate
+
+		check = checkThreat(pos[0], pos[1]);
+
+		if (check) {
+			if (moves.isEmpty())
+				System.out.println("CHECKMATE");
+			else
+				System.out.println("CHECK");
+		}
+
 	}
 
 	/**
@@ -346,14 +363,30 @@ public enum Piece {
 	 */
 	private boolean addMove(LinkedList<int[]> moves, int x, int y) {
 
+		boolean threat = checkThreat(x, y);
+
 		Piece other = Table.getSquare(x, y).getPiece();
 		if (other == null) {
 
-			moves.add(new int[] { x, y });
+			if (this == wKing || this == bKing) {
+				if (!threat)
+					moves.add(new int[] { x, y });
+			} else {
+				moves.add(new int[] { x, y });
+			}
+
+			threatSquare(x, y);
 
 		} else if (other.team != team) {
 
-			moves.add(new int[] { x, y });
+			if (this == wKing || this == bKing) {
+				if (!threat)
+					moves.add(new int[] { x, y });
+			} else {
+				moves.add(new int[] { x, y });
+			}
+
+			threatSquare(x, y);
 
 			return false;
 
@@ -364,12 +397,53 @@ public enum Piece {
 
 	}
 
+	/**
+	 * Given the coords x and y, checks if the square is threatened by any piece
+	 * 
+	 * @param x
+	 * @param y
+	 * @return true if the square is threatened or false if not
+	 */
+	private boolean checkThreat(int x, int y) {
+
+		if (team) {
+			if (Table.getSquare(x, y).isWhiteThreat())
+				return true;
+		} else {
+			if (Table.getSquare(x, y).isBlackThreat())
+				return true;
+		}
+
+		return false;
+
+	}
+
+	/**
+	 * Given the coords, especifies that square is threatened by a team so as to be
+	 * cheked later by each king.
+	 * 
+	 * @param x
+	 * @param y
+	 */
+	private void threatSquare(int x, int y) {
+
+		if (team)
+			Table.getSquare(x, y).setBlackThreat(true);
+		else
+			Table.getSquare(x, y).setWhiteThreat(true);
+
+	}
+
 	public BufferedImage getImage() {
 		return image;
 	}
 
 	public boolean isWhiteTeam() {
 		return team;
+	}
+
+	public boolean isCheck() {
+		return check;
 	}
 
 }
