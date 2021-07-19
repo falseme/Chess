@@ -37,7 +37,7 @@ public class Square extends JComponent {
 		normalColor = color;
 		moveColor = normalColor == WHITE ? new Color(120, 120, 250) : new Color(70, 70, 250);
 		checkColor = normalColor == WHITE ? new Color(250, 120, 120) : new Color(250, 40, 40);
-		color = checkColor;
+		
 		setBackground(color);
 
 		pos = new int[] { x, y };
