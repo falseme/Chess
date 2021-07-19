@@ -375,8 +375,6 @@ public enum Piece {
 				moves.add(new int[] { x, y });
 			}
 
-			threatSquare(x, y);
-
 		} else if (other.team != team) {
 
 			if (this == wKing || this == bKing) {
@@ -385,8 +383,6 @@ public enum Piece {
 			} else {
 				moves.add(new int[] { x, y });
 			}
-
-			threatSquare(x, y);
 
 			return false;
 
