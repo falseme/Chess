@@ -363,6 +363,8 @@ public enum Piece {
 	 */
 	private boolean addMove(LinkedList<int[]> moves, int x, int y) {
 
+		threatSquare(x, y);
+
 		boolean threat = checkThreat(x, y);
 
 		Piece other = Table.getSquare(x, y).getPiece();
