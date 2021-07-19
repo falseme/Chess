@@ -335,15 +335,7 @@ public enum Piece {
 
 		// test if checkmate
 
-		check = false;
-
-		if (team) {
-			if (Table.getSquare(pos[0], pos[1]).isWhiteThreat())
-				check = true;
-		} else {
-			if (Table.getSquare(pos[0], pos[1]).isBlackThreat())
-				check = true;
-		}
+		check = checkThreat(pos[0], pos[1]);
 
 		if (check) {
 			if (moves.isEmpty())
@@ -367,15 +359,7 @@ public enum Piece {
 	 */
 	private boolean addMove(LinkedList<int[]> moves, int x, int y) {
 
-		boolean threat = false;
-
-		if (team) {
-			if (Table.getSquare(x, y).isWhiteThreat())
-				threat = true;
-		} else {
-			if (Table.getSquare(x, y).isBlackThreat())
-				threat = true;
-		}
+		boolean threat = checkThreat(x, y);
 
 		Piece other = Table.getSquare(x, y).getPiece();
 		if (other == null) {
@@ -415,12 +399,37 @@ public enum Piece {
 
 	}
 
+	/**
+	 * Given the coords x and y, checks if the square is threatened by any piece
+	 * 
+	 * @param x
+	 * @param y
+	 * @return true if the square is threatened or false if not
+	 */
+	private boolean checkThreat(int x, int y) {
+
+		if (team) {
+			if (Table.getSquare(x, y).isWhiteThreat())
+				return true;
+		} else {
+			if (Table.getSquare(x, y).isBlackThreat())
+				return true;
+		}
+
+		return false;
+
+	}
+
 	public BufferedImage getImage() {
 		return image;
 	}
 
 	public boolean isWhiteTeam() {
 		return team;
+	}
+
+	public boolean isCheck() {
+		return check;
 	}
 
 }

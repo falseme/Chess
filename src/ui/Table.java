@@ -62,6 +62,16 @@ public class Table extends JComponent {
 
 	public static void enableAll(boolean b) {
 
+		if (b) {
+
+			for (int y = 0; y < table.length; y++) {
+				for (int x = 0; x < table[y].length; x++) {
+					table[x][y].recalculateMoves();
+				}
+			}
+
+		}
+
 		for (int y = 0; y < table.length; y++) {
 			for (int x = 0; x < table[y].length; x++) {
 
@@ -69,15 +79,6 @@ public class Table extends JComponent {
 				table[x][y].resetBackgroundColor();
 				table[x][y].resetThreat();
 
-			}
-		}
-
-		if (!b)
-			return;
-
-		for (int y = 0; y < table.length; y++) {
-			for (int x = 0; x < table[y].length; x++) {
-				table[x][y].recalculateMoves();
 			}
 		}
 
