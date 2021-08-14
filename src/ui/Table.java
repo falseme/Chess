@@ -1,5 +1,7 @@
 package ui;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.util.List;
 
 import javax.swing.JComponent;
@@ -70,6 +72,13 @@ public class Table extends JComponent {
 				}
 			}
 
+			for (int y = 0; y < table.length; y++) {
+				for (int x = 0; x < table[y].length; x++) {
+					if (table[x][y].getPiece() == Piece.bKing || table[x][y].getPiece() == Piece.wKing)
+						table[x][y].recalculateMoves();
+				}
+			}
+
 		}
 
 		for (int y = 0; y < table.length; y++) {
@@ -103,6 +112,12 @@ public class Table extends JComponent {
 
 	public static Square getSquare(int x, int y) {
 		return table[x][y];
+	}
+
+	@Override
+	public void paintComponent(Graphics g) {
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, getWidth(), getHeight());
 	}
 
 }

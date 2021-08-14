@@ -19,6 +19,13 @@ public enum Piece {
 
 	private boolean check = false;
 
+	/**
+	 * this boolean is used with rock and bishop movements. When a king is saw it is
+	 * necessary to check one more movement so as to not let the king do a
+	 * prohibited movement
+	 */
+	private boolean oneMoreMovement = false;
+
 	private Piece(BufferedImage img, boolean isWhiteTeam) {
 
 		image = img;
@@ -365,9 +372,15 @@ public enum Piece {
 
 		threatSquare(x, y);
 
+		if (oneMoreMovement) {
+			oneMoreMovement = false;
+			return false;
+		}
+
 		boolean threat = checkThreat(x, y);
 
 		Piece other = Table.getSquare(x, y).getPiece();
+
 		if (other == null) {
 
 			if (this == wKing || this == bKing) {
@@ -384,6 +397,11 @@ public enum Piece {
 					moves.add(new int[] { x, y });
 			} else {
 				moves.add(new int[] { x, y });
+			}
+
+			if (other == wKing || other == bKing) {
+				oneMoreMovement = true;
+				return true;
 			}
 
 			return false;
