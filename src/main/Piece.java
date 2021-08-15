@@ -20,7 +20,8 @@ public enum Piece {
 	private boolean check = false;
 
 	/**
-	 * this boolean is used with rock and bishop movements. When a king is saw it is
+	 * this boolean is used in {@link #rockMovements(LinkedList, int[])} and
+	 * {@link #bishopMovements(LinkedList, int[])} methods. When a king is saw it is
 	 * necessary to check one more movement so as to not let the king do a
 	 * prohibited movement
 	 */

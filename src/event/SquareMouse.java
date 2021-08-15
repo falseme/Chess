@@ -23,6 +23,15 @@ public class SquareMouse extends MouseAdapter {
 
 	public void clicked(MouseEvent e) {
 
+		if (owner == moving) {
+
+			moving = null;
+			Table.enableAll(true);
+
+			return;
+
+		}
+
 		if (!owner.isEnabled()) {
 			System.out.println(false);
 			return;
