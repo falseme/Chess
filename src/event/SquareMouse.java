@@ -92,4 +92,11 @@ public class SquareMouse extends MouseAdapter {
 
 	}
 
+	public static void reset() {
+
+		whiteMoving = true;
+		moving = null;
+
+	}
+
 }

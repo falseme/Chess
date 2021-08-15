@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.swing.JComponent;
 
+import event.SquareMouse;
 import main.Piece;
 import ui.layout.TableLayout;
 
@@ -59,6 +60,33 @@ public class Table extends JComponent {
 		table[5][7].addPiece(Piece.wBishop);
 		table[6][7].addPiece(Piece.wHorse);
 		table[7][7].addPiece(Piece.wRock);
+
+	}
+
+	public void addPieces(long hackroom) {
+
+		if (hackroom != 0)
+			return;
+
+		table[0][3].addPiece(Piece.bQueen);
+		table[4][7].addPiece(Piece.wKing);
+		table[5][6].addPiece(Piece.wBishop);
+
+	}
+
+	public static void emptyAndReset() {
+
+		for (int y = 0; y < table.length; y++) {
+			for (int x = 0; x < table[y].length; x++) {
+				table[x][y].addPiece(null);
+
+				table[x][y].setEnabled(true);
+				table[x][y].resetBackgroundColor();
+				table[x][y].resetThreat();
+			}
+		}
+
+		SquareMouse.reset();
 
 	}
 
