@@ -2,6 +2,7 @@ package ui;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JComponent;
@@ -15,7 +16,22 @@ public class Table extends JComponent {
 
 	private static Square[][] table;
 
+	public static String lastMove;
+
+	private static HashMap<Integer, String> numToCoord;
+
 	public Table() {
+
+		numToCoord = new HashMap<Integer, String>();
+
+		numToCoord.put(7, "A");
+		numToCoord.put(6, "B");
+		numToCoord.put(5, "C");
+		numToCoord.put(4, "D");
+		numToCoord.put(3, "E");
+		numToCoord.put(2, "F");
+		numToCoord.put(1, "G");
+		numToCoord.put(0, "H");
 
 		setLayout(new TableLayout());
 
@@ -35,7 +51,7 @@ public class Table extends JComponent {
 
 	}
 
-	public void addPieces() {
+	public static void addPieces() {
 
 		// Black pieces
 		for (int i = 0; i < table.length; i++)
@@ -87,6 +103,8 @@ public class Table extends JComponent {
 		}
 
 		SquareMouse.reset();
+
+		addPieces();
 
 	}
 
@@ -142,10 +160,35 @@ public class Table extends JComponent {
 		return table[x][y];
 	}
 
+	public static Square[][] getTable() {
+		return table;
+	}
+
 	@Override
 	public void paintComponent(Graphics g) {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, getWidth(), getHeight());
+	}
+
+	public static void replaceTable(Square[][] table) {
+
+		for (int y = 0; y < table.length; y++) {
+			for (int x = 0; x < table[y].length; x++) {
+
+				if (Table.table[x][y].getPiece() != table[x][y].getPiece()) {
+
+					if (table[x][y].getPiece() != null)
+						lastMove = numToCoord.get(y) + (x + 1);
+
+					Table.table[x][y].addPiece(table[x][y].getPiece());
+
+				}
+
+			}
+		}
+
+		enableAll(true);
+
 	}
 
 }

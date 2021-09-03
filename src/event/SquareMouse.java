@@ -3,6 +3,7 @@ package event;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import main.App;
 import ui.Square;
 import ui.Table;
 
@@ -22,6 +23,11 @@ public class SquareMouse extends MouseAdapter {
 	}
 
 	public void clicked(MouseEvent e) {
+
+		if (App.CLIENT != null) {
+			if (!App.CLIENT.turn)
+				return;
+		}
 
 		if (owner == moving) {
 
@@ -44,8 +50,14 @@ public class SquareMouse extends MouseAdapter {
 			moving = null;
 			Table.enableAll(true);
 
-			whiteMoving = !whiteMoving;
+			if (App.CLIENT != null) {
 
+				App.CLIENT.sendData();
+				return;
+
+			}
+
+			whiteMoving = !whiteMoving;
 			return;
 
 		}
@@ -105,6 +117,12 @@ public class SquareMouse extends MouseAdapter {
 
 		whiteMoving = true;
 		moving = null;
+
+	}
+
+	public static void switchDefaultTurn() {
+
+		whiteMoving = !whiteMoving;
 
 	}
 

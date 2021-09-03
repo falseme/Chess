@@ -9,6 +9,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
+import main.App;
+import multiplayer.Client;
+
 public class Window extends JFrame {
 	public static final long serialVersionUID = 1l;
 
@@ -16,7 +19,7 @@ public class Window extends JFrame {
 
 	public Window() {
 
-		setTitle("nosexd");
+		setTitle("Ajedrez");
 		setSize(800, 600);
 		setLocationRelativeTo(null);
 
@@ -29,7 +32,7 @@ public class Window extends JFrame {
 
 		setVisible(true);
 
-		table.addPieces();
+		Table.addPieces();
 
 	}
 
@@ -53,13 +56,40 @@ public class Window extends JFrame {
 					return;
 
 				Table.emptyAndReset();
-				table.addPieces();
 
 			}
 		});
 		game.add(newGame);
 
+		JMenu multiplayer = new JMenu("Multijugador");
+
+		JMenuItem lan = new JMenuItem("LAN");
+		lan.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				String[] options = new String[] { "HOST", "CLIENTE" };
+
+				int option = JOptionPane.showOptionDialog(Window.this, "Desea hostear o ser un cliente", "Advertencia",
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
+
+				if (option == 0) {
+					App.CLIENT = new Client();
+				} else {
+
+					String host = JOptionPane.showInputDialog("Escriba la dirección IP del host");
+					if (host == null || host.isEmpty())
+						return;
+
+					App.CLIENT = new Client(host);
+				}
+
+			}
+		});
+		multiplayer.add(lan);
+
 		bar.add(game);
+		bar.add(multiplayer);
 
 		setJMenuBar(bar);
 
