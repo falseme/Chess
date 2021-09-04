@@ -71,8 +71,37 @@ public class SquareMouse extends MouseAdapter {
 
 			} else { // normal movement
 
+				// check if pawn moves two squares so as to check a passant capture
+				if (moving.getPiece() == Piece.wPawn || moving.getPiece() == Piece.bPawn) {
+
+					if (Math.abs(owner.getPos()[1] - moving.getPos()[1]) == 2)
+						owner.setPassant();
+
+				}
+
 				owner.addPiece(moving.getPiece());
 				moving.addPiece(null);
+
+				// check passant capture
+				switch (owner.getPiece()) {
+
+				case wPawn:
+
+					if (Table.getSquare(owner.getPos()[0], owner.getPos()[1] + 1).canPassant())
+						Table.getSquare(owner.getPos()[0], owner.getPos()[1] + 1).addPiece(null);
+
+					break;
+				case bPawn:
+
+					if (Table.getSquare(owner.getPos()[0], owner.getPos()[1] - 1).canPassant())
+						Table.getSquare(owner.getPos()[0], owner.getPos()[1] - 1).addPiece(null);
+
+					break;
+				default:
+					// do-nothing
+					break;
+
+				}
 
 			}
 

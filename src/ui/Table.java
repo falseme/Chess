@@ -110,6 +110,8 @@ public class Table extends JComponent {
 
 	public static void enableAll(boolean b) {
 
+		long start = System.nanoTime();
+
 		if (b) {
 
 			for (int y = 0; y < table.length; y++) {
@@ -136,6 +138,11 @@ public class Table extends JComponent {
 
 			}
 		}
+
+		long end = System.nanoTime();
+		double delta = end - start;
+		delta /= 1000000000;
+		System.out.println("Time: " + delta);
 
 	}
 
