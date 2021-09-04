@@ -18,6 +18,7 @@ public enum Piece {
 	private boolean team; // true = white // false = black;
 
 	private boolean check = false;
+	public boolean moved = false;
 
 	/**
 	 * this boolean is used in {@link #rockMovements(LinkedList, int[])} and
@@ -162,6 +163,9 @@ public enum Piece {
 					moves.add(new int[] { pos[0] + 1, pos[1] + 1 * way });
 
 		}
+
+		// passant
+		// to develop
 
 	}
 
@@ -344,6 +348,39 @@ public enum Piece {
 		// down
 		if (pos[1] + 1 <= 7)
 			addMove(moves, pos[0], pos[1] + 1);
+
+		// castling
+
+		if (!moved) {
+
+			Piece leftRock = Table.getSquare(0, pos[1]).getPiece();
+			Piece rightRock = Table.getSquare(7, pos[1]).getPiece();
+
+			if (leftRock != null) {
+				if (Table.getSquare(pos[0] - 1, pos[1]).getPiece() == null
+						&& Table.getSquare(pos[0] - 2, pos[1]).getPiece() == null
+						&& Table.getSquare(pos[0] - 3, pos[1]).getPiece() == null
+						&& ((leftRock == Piece.wRock || leftRock == Piece.bRock) && leftRock.team == team)
+						&& !leftRock.moved) {
+					if (!Table.getSquare(pos[0] - 2, pos[1]).isWhiteThreat() && team
+							|| !Table.getSquare(pos[0] - 2, pos[1]).isBlackThreat() && !team)
+						moves.add(new int[] { 0, pos[1] });
+				}
+
+			}
+
+			if (rightRock != null) {
+				if (Table.getSquare(pos[0] + 1, pos[1]).getPiece() == null
+						&& Table.getSquare(pos[0] + 2, pos[1]).getPiece() == null
+						&& ((rightRock == Piece.wRock || rightRock == Piece.bRock) && rightRock.team == team)
+						&& !rightRock.moved) {
+					if (!Table.getSquare(pos[0] - 2, pos[1]).isWhiteThreat() && team
+							|| !Table.getSquare(pos[0] - 2, pos[1]).isBlackThreat() && !team)
+						moves.add(new int[] { 7, pos[1] });
+				}
+			}
+
+		}
 
 		// test if checkmate
 
