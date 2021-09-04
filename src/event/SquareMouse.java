@@ -4,6 +4,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import main.App;
+import main.Piece;
 import ui.Square;
 import ui.Table;
 
@@ -45,8 +46,33 @@ public class SquareMouse extends MouseAdapter {
 
 		if (moving != null) {
 
-			owner.addPiece(moving.getPiece());
-			moving.addPiece(null);
+			moving.getPiece().moved = true;
+
+			if (moving.getPiece() == Piece.wKing && owner.getPiece() == Piece.wRock
+					|| moving.getPiece() == Piece.bKing && owner.getPiece() == Piece.bRock) {
+
+				if (owner.getPos()[0] == 0) {
+
+					Table.getSquare(moving.getPos()[0] - 2, moving.getPos()[1]).addPiece(moving.getPiece());
+					Table.getSquare(moving.getPos()[0] - 1, moving.getPos()[1]).addPiece(owner.getPiece());
+
+				} else if (owner.getPos()[0] == 7) {
+
+					Table.getSquare(moving.getPos()[0] + 2, moving.getPos()[1]).addPiece(moving.getPiece());
+					Table.getSquare(moving.getPos()[0] + 1, moving.getPos()[1]).addPiece(owner.getPiece());
+
+				}
+
+				moving.addPiece(null);
+				owner.addPiece(null);
+
+			} else {
+
+				owner.addPiece(moving.getPiece());
+				moving.addPiece(null);
+
+			}
+
 			moving = null;
 			Table.enableAll(true);
 

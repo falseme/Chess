@@ -136,6 +136,10 @@ public class Square extends JComponent {
 		return moves;
 	}
 
+	public int[] getPos() {
+		return pos;
+	}
+
 	public void setWhiteThreat(boolean b) {
 		whiteThreat = b;
 	}
