@@ -150,6 +150,12 @@ public enum Piece {
 				if (other.team != team)
 					moves.add(new int[] { pos[0] - 1, pos[1] + 1 * way });
 
+			// passant
+			Piece passant = Table.getSquare(pos[0] - 1, pos[1]).getPiece();
+			if ((passant == Piece.bPawn && team || passant == Piece.wPawn && !team)
+					&& Table.getSquare(pos[0] - 1, pos[1]).canPassant())
+				moves.add(new int[] { pos[0] - 1, pos[1] + way });
+
 		}
 
 		if (pos[0] < 7) {
@@ -162,10 +168,13 @@ public enum Piece {
 				if (other.team != team)
 					moves.add(new int[] { pos[0] + 1, pos[1] + 1 * way });
 
-		}
+			// passant
+			Piece passant = Table.getSquare(pos[0] + 1, pos[1]).getPiece();
+			if ((passant == Piece.bPawn && team || passant == Piece.wPawn && !team)
+					&& Table.getSquare(pos[0] + 1, pos[1]).canPassant())
+				moves.add(new int[] { pos[0] + 1, pos[1] + way });
 
-		// passant
-		// to develop
+		}
 
 	}
 

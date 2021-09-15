@@ -25,6 +25,10 @@ public class Square extends JComponent {
 	private Piece piece;
 	private int[] pos; // 0 = x; 1 = y;
 
+	// from 3 to 0. if > 0 then it is possible to make a passant capture to the pawn
+	// in this square
+	private int passant = 0;
+
 	/**
 	 * List that contains every possible move that can be made with the current
 	 * piece if not null, case which let this list empty or null
@@ -70,6 +74,9 @@ public class Square extends JComponent {
 	 * Calculate possible movements and store them into "moves"
 	 */
 	public void recalculateMoves() {
+
+		if (passant > 0)
+			passant--;
 
 		if (piece == null)
 			return;
@@ -159,6 +166,16 @@ public class Square extends JComponent {
 
 	public boolean isBlackThreat() {
 		return blackThreat;
+	}
+
+	public void setPassant() {
+		passant = 3;
+	}
+
+	public boolean canPassant() {
+		if (passant > 0)
+			return true;
+		return false;
 	}
 
 }
