@@ -8,6 +8,7 @@ import java.util.List;
 import javax.swing.JComponent;
 
 import event.SquareMouse;
+import gui.Assets;
 import main.Piece;
 import ui.layout.TableLayout;
 
@@ -36,18 +37,19 @@ public class Table extends JComponent {
 		setLayout(new TableLayout());
 
 		boolean white = true;
-
 		table = new Square[8][8];
 		for (int y = 0; y < table.length; y++) {
 			for (int x = 0; x < table[y].length; x++) {
 
-				table[x][y] = new Square(white ? Square.WHITE : Square.BLACK, x, y);
+				table[x][y] = new Square(Assets.TABLE[x][y], x, y);
 				add(table[x][y]);
 				white = !white;
 
 			}
 			white = !white;
 		}
+
+		addBorders();
 
 	}
 
@@ -110,8 +112,6 @@ public class Table extends JComponent {
 
 	public static void enableAll(boolean b) {
 
-		long start = System.nanoTime();
-
 		if (b) {
 
 			for (int y = 0; y < table.length; y++) {
@@ -139,11 +139,6 @@ public class Table extends JComponent {
 			}
 		}
 
-		long end = System.nanoTime();
-		double delta = end - start;
-		delta /= 1000000000;
-		System.out.println("Time: " + delta);
-
 	}
 
 	public static void enable(List<int[]> list) {
@@ -157,7 +152,7 @@ public class Table extends JComponent {
 
 			int[] pos = list.remove(0);
 			table[pos[0]][pos[1]].setEnabled(true);
-			table[pos[0]][pos[1]].switchBackground();
+			table[pos[0]][pos[1]].switchMoveBackground();
 
 		}
 
@@ -195,6 +190,19 @@ public class Table extends JComponent {
 		}
 
 		enableAll(true);
+
+	}
+
+	private void addBorders() {
+
+		add(new JComponent() {
+			public static final long serialVersionUID = 1l;
+
+			@Override
+			public void paintComponent(Graphics g) {
+				g.drawImage(Assets.FRAME, 0, 0, getWidth(), getHeight(), null);
+			}
+		});
 
 	}
 
