@@ -10,7 +10,7 @@ public class App {
 
 	public static void main(String[] args) {
 
-		Assets.loadAll();
+		Assets.init();
 
 		Window window = new Window();
 		window.setVisible(true);

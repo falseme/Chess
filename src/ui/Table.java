@@ -15,6 +15,7 @@ import ui.layout.TableLayout;
 public class Table extends JComponent {
 	public static final long serialVersionUID = 1l;
 
+	private static JComponent border;
 	private static Square[][] table;
 
 	public static String lastMove;
@@ -36,20 +37,17 @@ public class Table extends JComponent {
 
 		setLayout(new TableLayout());
 
-		boolean white = true;
 		table = new Square[8][8];
 		for (int y = 0; y < table.length; y++) {
 			for (int x = 0; x < table[y].length; x++) {
 
 				table[x][y] = new Square(Assets.TABLE[x][y], x, y);
 				add(table[x][y]);
-				white = !white;
 
 			}
-			white = !white;
 		}
 
-		addBorders();
+		addBorder();
 
 	}
 
@@ -193,16 +191,34 @@ public class Table extends JComponent {
 
 	}
 
-	private void addBorders() {
+	public static void updateGui() {
 
-		add(new JComponent() {
+		border.repaint();
+
+		Piece.updateGui();
+
+		for (int y = 0; y < table.length; y++) {
+			for (int x = 0; x < table[y].length; x++) {
+
+				table[x][y].updateGui(Assets.TABLE[x][y]);
+
+			}
+		}
+
+	}
+
+	private void addBorder() {
+
+		border = new JComponent() {
 			public static final long serialVersionUID = 1l;
 
 			@Override
 			public void paintComponent(Graphics g) {
 				g.drawImage(Assets.FRAME, 0, 0, getWidth(), getHeight(), null);
 			}
-		});
+		};
+
+		add(border);
 
 	}
 

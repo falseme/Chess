@@ -127,6 +127,13 @@ public class Square extends JComponent {
 
 	}
 
+	public void updateGui(BufferedImage img) {
+
+		background = img;
+		repaint();
+
+	}
+
 	@Override
 	public void paintComponent(Graphics g) {
 

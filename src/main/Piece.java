@@ -497,6 +497,23 @@ public enum Piece {
 
 	}
 
+	public static void updateGui() {
+
+		wPawn.image = Assets.W_PAWN;
+		wRock.image = Assets.W_ROCK;
+		wHorse.image = Assets.W_HORSE;
+		wBishop.image = Assets.W_BISHOP;
+		wQueen.image = Assets.W_QUEEN;
+		wKing.image = Assets.W_KING;
+		bPawn.image = Assets.B_PAWN;
+		bRock.image = Assets.B_ROCK;
+		bHorse.image = Assets.B_HORSE;
+		bBishop.image = Assets.B_BISHOP;
+		bQueen.image = Assets.B_QUEEN;
+		bKing.image = Assets.B_KING;
+
+	}
+
 	public BufferedImage getImage() {
 		return image;
 	}
