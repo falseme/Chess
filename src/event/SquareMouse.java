@@ -189,7 +189,7 @@ public class SquareMouse extends MouseAdapter {
 	@Override
 	public void mouseEntered(MouseEvent e) {
 
-		owner.brightBackground();
+		owner.inColor();
 		in = true;
 
 	}
@@ -197,7 +197,7 @@ public class SquareMouse extends MouseAdapter {
 	@Override
 	public void mouseExited(MouseEvent e) {
 
-		owner.resetBackground();
+		owner.outColor();
 		in = false;
 
 	}
@@ -205,7 +205,7 @@ public class SquareMouse extends MouseAdapter {
 	@Override
 	public void mousePressed(MouseEvent e) {
 
-		owner.darkBackground();
+		owner.clickColor();
 
 	}
 
@@ -213,10 +213,10 @@ public class SquareMouse extends MouseAdapter {
 	public void mouseReleased(MouseEvent e) {
 
 		if (in) {
-			owner.brightBackground();
+			owner.inColor();
 			clicked(e);
 		} else
-			owner.resetBackground();
+			owner.outColor();
 
 	}
 

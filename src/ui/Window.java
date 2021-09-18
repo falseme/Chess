@@ -3,12 +3,15 @@ package ui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButtonMenuItem;
 
+import gui.Assets;
 import main.App;
 import multiplayer.Client;
 
@@ -40,6 +43,7 @@ public class Window extends JFrame {
 
 		JMenuBar bar = new JMenuBar();
 
+		// GAME
 		JMenu game = new JMenu("Juego");
 
 		JMenuItem newGame = new JMenuItem("Nuevo juego");
@@ -61,6 +65,7 @@ public class Window extends JFrame {
 		});
 		game.add(newGame);
 
+		// MULTIPLAYER
 		JMenu multiplayer = new JMenu("Multijugador");
 
 		JMenuItem lan = new JMenuItem("LAN");
@@ -88,8 +93,63 @@ public class Window extends JFrame {
 		});
 		multiplayer.add(lan);
 
+		// OPTIONS
+		JMenu options = new JMenu("Opciones");
+
+		// LOOK - WOOD & STONE
+		JMenu look = new JMenu("Aspecto");
+
+		JRadioButtonMenuItem stone = new JRadioButtonMenuItem("Negro", true);
+		stone.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Assets.loadStone();
+			}
+		});
+		look.add(stone);
+		JRadioButtonMenuItem wood = new JRadioButtonMenuItem("Madera");
+		wood.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Assets.loadWood();
+			}
+		});
+		look.add(wood);
+
+		ButtonGroup lookGroup = new ButtonGroup();
+		lookGroup.add(stone);
+		lookGroup.add(wood);
+
+		look.addSeparator();
+		// LOOK 2D & 3D
+
+		JRadioButtonMenuItem d2 = new JRadioButtonMenuItem("2D", true);
+		d2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Assets.load2d();
+			}
+		});
+		look.add(d2);
+
+		JRadioButtonMenuItem d3 = new JRadioButtonMenuItem("3D");
+		d3.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Assets.load3d();
+			}
+		});
+		look.add(d3);
+
+		ButtonGroup lookGroupD = new ButtonGroup();
+		lookGroupD.add(d2);
+		lookGroupD.add(d3);
+
+		options.add(look);
+
 		bar.add(game);
 		bar.add(multiplayer);
+		bar.add(options);
 
 		setJMenuBar(bar);
 

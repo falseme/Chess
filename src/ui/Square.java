@@ -2,6 +2,7 @@ package ui;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
 import javax.swing.JComponent;
@@ -14,10 +15,14 @@ public class Square extends JComponent {
 	public static Color BLACK = new Color(50, 50, 50);
 	public static Color WHITE = new Color(200, 200, 200);
 
-	private Color backgroundColor;
-	private Color normalColor;
+	private BufferedImage background;
+	private Color hoverColor;
+	private Color offColor;
 	private Color moveColor;
 	private Color checkColor;
+
+	private boolean check = false;
+	private boolean move = false;
 
 	private boolean whiteThreat = false;
 	private boolean blackThreat = false;
@@ -35,13 +40,14 @@ public class Square extends JComponent {
 	 */
 	private LinkedList<int[]> moves;
 
-	public Square(Color color, int x, int y) {
+	public Square(BufferedImage back, int x, int y) {
 
-		backgroundColor = color;
-		normalColor = color;
-		moveColor = normalColor == WHITE ? new Color(120, 120, 250) : new Color(70, 70, 250);
-		checkColor = normalColor == WHITE ? new Color(250, 120, 120) : new Color(250, 40, 40);
-		setBackground(color);
+		background = back;
+
+		offColor = new Color(0f, 0f, 0f, 0f);
+		hoverColor = offColor;
+		moveColor = new Color(0f, 0f, 1f, 0.18f);
+		checkColor = new Color(1f, 0f, 0f, 0.35f);
 
 		pos = new int[] { x, y };
 
@@ -84,48 +90,66 @@ public class Square extends JComponent {
 
 	}
 
-	public void darkBackground() {
-		setBackground(backgroundColor.darker());
+	public void inColor() {
+		hoverColor = new Color(1f, 1f, 1f, 0.3f);
+		repaint();
 	}
 
-	public void brightBackground() {
-		setBackground(backgroundColor.brighter());
+	public void outColor() {
+		hoverColor = offColor;
+		repaint();
 	}
 
-	public void resetBackground() {
-		setBackground(backgroundColor);
+	public void clickColor() {
+		hoverColor = new Color(0.5f, 0.5f, 0.5f, 0.3f);
+		repaint();
 	}
 
-	public void switchBackground() {
-
-		if (backgroundColor == normalColor)
-			backgroundColor = moveColor;
-		else
-			backgroundColor = normalColor;
-
-		setBackground(backgroundColor);
-
+	public void switchMoveBackground() {
+		move = !move;
+		repaint();
 	}
 
 	public void resetBackgroundColor() {
 
-		backgroundColor = normalColor;
-		setBackground(backgroundColor);
+		hoverColor = offColor;
+		move = false;
 
-		if (piece == null)
+		if (piece == null) {
+			check = false;
+			repaint();
 			return;
-
-		if (piece.isCheck()) {
-			backgroundColor = checkColor;
-			setBackground(backgroundColor);
 		}
+
+		check = piece.isCheck();
+
+		repaint();
+
+	}
+
+	public void updateGui(BufferedImage img) {
+
+		background = img;
+		repaint();
 
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
 
-		g.setColor(getBackground());
+		g.drawImage(background, 0, 0, getWidth(), getHeight(), null);
+
+		if (check) {
+			g.setColor(checkColor);
+			g.fillRect(0, 0, getWidth(), getHeight());
+		}
+
+		if (move) {
+			g.setColor(moveColor);
+			g.fillRect(0, 0, getWidth(), getHeight());
+		}
+
+		g.setColor(hoverColor);
 		g.fillRect(0, 0, getWidth(), getHeight());
 
 		if (piece == null)
