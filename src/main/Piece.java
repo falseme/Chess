@@ -132,11 +132,14 @@ public enum Piece {
 		if (pos[1] == 0 || pos[1] == 7)
 			return;
 
-		if (Table.getSquare(pos[0], pos[1] + 1 * way).getPiece() == null)
+		if (Table.getSquare(pos[0], pos[1] + 1 * way).getPiece() == null){
+
 			moves.add(new int[] { pos[0], pos[1] + 1 * way });
-		if (pos[1] == 6 && team || pos[1] == 1 && !team)
-			if (Table.getSquare(pos[0], pos[1] + 2 * way).getPiece() == null)
-				moves.add(new int[] { pos[0], pos[1] + 2 * way });
+			if (pos[1] == 6 && team || pos[1] == 1 && !team)
+				if (Table.getSquare(pos[0], pos[1] + 2 * way).getPiece() == null)
+					moves.add(new int[] { pos[0], pos[1] + 2 * way });
+
+		}
 
 		// taking
 
@@ -407,9 +410,9 @@ public enum Piece {
 	/**
 	 * Add coords to the movements list of the currect piece and check if there are
 	 * more posibilities on the same line.
-	 * 
+	 *
 	 * Does not work with pawns
-	 * 
+	 *
 	 * @param moves
 	 * @param x
 	 * @param y
@@ -462,7 +465,7 @@ public enum Piece {
 
 	/**
 	 * Given the coords x and y, checks if the square is threatened by any piece
-	 * 
+	 *
 	 * @param x
 	 * @param y
 	 * @return true if the square is threatened or false if not
@@ -484,7 +487,7 @@ public enum Piece {
 	/**
 	 * Given the coords, especifies that square is threatened by a team so as to be
 	 * cheked later by each king.
-	 * 
+	 *
 	 * @param x
 	 * @param y
 	 */
