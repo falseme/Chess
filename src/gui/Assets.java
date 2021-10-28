@@ -5,8 +5,14 @@ import java.util.HashMap;
 
 import ui.Table;
 
+/**
+* Used to drive the graphics files stored in the "res" folder.
+*
+* @author Fabricio Tomás <a href="https://github.com/Fabricio-Tomas">github-profile</a>
+*/
 public class Assets {
 
+	// white pieces
 	public static BufferedImage W_PAWN;
 	public static BufferedImage W_ROCK;
 	public static BufferedImage W_HORSE;
@@ -14,6 +20,7 @@ public class Assets {
 	public static BufferedImage W_KING;
 	public static BufferedImage W_QUEEN;
 
+	//black pieces
 	public static BufferedImage B_PAWN;
 	public static BufferedImage B_ROCK;
 	public static BufferedImage B_HORSE;
@@ -21,14 +28,19 @@ public class Assets {
 	public static BufferedImage B_KING;
 	public static BufferedImage B_QUEEN;
 
+	/** List with the squares textures of the table. */
 	public static BufferedImage[][] TABLE;
+	/** The frame of the table with the numbers and letters for the rows and cols. */
 	public static BufferedImage FRAME;
 
-	private static String pieces; // type of pieces ("2d" or "3d"). Used to load a folder
-	private static String material; // material of the board and pieces ("wood" or "stone"). Used to load a folder
+	private static String pieces; // Type of pieces ("2d" or "3d"). Used to load a folder
+	private static String material; // Material of the board and pieces ("wood" or "stone"). Used to load a folder
 
-	private static boolean init = false; // true if the "init" method was called almost once
+	private static boolean init = false; // True if the "init" method was called almost once.
 
+	/**
+	* Loads the default pieces and table. (2d-pieces and stone-material)
+	*/
 	public static void init() {
 
 		pieces = "2d";
@@ -40,26 +52,46 @@ public class Assets {
 
 	}
 
+	/**
+	* Sets the material to stone and loads everything.
+	*/
 	public static void loadStone() {
 		material = "stone";
 		loadAll();
 	}
 
+	/**
+	* Sets the material to wood and loads everything.
+	*/
 	public static void loadWood() {
 		material = "wood";
 		loadAll();
 	}
 
+	/**
+	* Sets the dimension to 2D and loads everything.
+	*/
 	public static void load2d() {
 		pieces = "2d";
 		loadAll();
 	}
 
+	/**
+	* Sets the dimension to 3D and loads everything.
+	*/
 	public static void load3d() {
 		pieces = "3d";
 		loadAll();
 	}
 
+	/**
+	* Loads everything using the Loader class <br>
+	* Uses the material and the dimension setted to load the pieces and the table graphics. <br> <br>
+	* Uses the method Table.updateGui to redraw the pieces and table.
+	*
+	* @see Loader
+	* @see Table
+	*/
 	public static void loadAll() {
 
 		W_PAWN = Loader.loadPng("/pieces/" + pieces + "/" + material + "/PawnW.png");
@@ -112,6 +144,9 @@ public class Assets {
 
 	}
 
+	/**
+	* Sets every asset to null so as to empty the momory.
+	*/
 	public static void emptyAll() {
 
 		W_PAWN = null;

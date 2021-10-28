@@ -6,6 +6,15 @@ import java.util.LinkedList;
 import gui.Assets;
 import ui.Table;
 
+/**
+* Enumerator used to add pieces to the squares in the table. <br><br>
+* Syntaxis:<br>
+* wPawn  -  w: it is in the white team.  -  Pawn: says what piece is.<br><br>
+* Declared form:<br>
+* wPawn(Assets.W_PAWN, true); using the constructor {@link #Piece(BufferedImage, boolean)}.
+*
+* @author Fabricio Tomás <a href="https://github.com/Fabricio-Tomas">github-profile</a>
+*/
 public enum Piece {
 
 	wPawn(Assets.W_PAWN, true), wRock(Assets.W_ROCK, true), wHorse(Assets.W_HORSE, true),
@@ -14,20 +23,26 @@ public enum Piece {
 	bPawn(Assets.B_PAWN, false), bRock(Assets.B_ROCK, false), bHorse(Assets.B_HORSE, false),
 	bBishop(Assets.B_BISHOP, false), bQueen(Assets.B_QUEEN, false), bKing(Assets.B_KING, false);
 
-	private BufferedImage image;
+	private BufferedImage image; // the image to draw in the square in the table
 	private boolean team; // true = white // false = black;
 
-	private boolean check = false;
-	public boolean moved = false;
+	private boolean check = false; // used by kings. true if chekc or checkmate, false if not.
+	public boolean moved = false; // true if the piece was moved at least once.
 
 	/**
-	 * this boolean is used in {@link #rockMovements(LinkedList, int[])} and
-	 * {@link #bishopMovements(LinkedList, int[])} methods. When a king is saw it is
-	 * necessary to check one more movement so as to not let the king do a
-	 * prohibited movement
+	 * Used when checking movements - If a king is in the path, is necessary
+		* to check one more movement to prevent the king from doing an ilegal movement. <br>
+		*
+		* Used in methods {@link #rockMovements(LinkedList, int[])} and {@link #bishopMovements(LinkedList, int[])}
 	 */
-	private boolean oneMoreMovement = false;
+	protected boolean oneMoreMovement = false;
 
+	/**
+	* Creates a piece with an image to show in the table. Also the team is especified by a boolean.
+	* @param img The image to represent the piece. Given by the Assets.
+	* @param isWhiteTeam true to create a white piece and false to create a black piece.
+	* @see Assets
+	*/
 	private Piece(BufferedImage img, boolean isWhiteTeam) {
 
 		image = img;
@@ -35,6 +50,14 @@ public enum Piece {
 
 	}
 
+	/**
+	* Calculate the moves the piece can move given its position in the table and returns them in a LinkedList. <br>
+	* Every move is stored in the Square object that has this piece.
+	*
+	* @param pos A two-length array with the x and y coords of the piece.
+	* @return LinkedList: A list with coords of the squares that it is possible to move the piece.
+	* @see ui.Square
+	*/
 	public LinkedList<int[]> calculateMoves(int[] pos) {
 
 		LinkedList<int[]> moves = new LinkedList<int[]>();
@@ -125,7 +148,14 @@ public enum Piece {
 
 	}
 
-	private void pawnMovements(LinkedList<int[]> moves, int[] pos, int way) {
+	/**
+	* Calculates the movements a pawn can do using pathfinding.
+	* @param moves List which will be loaded with every move the pawn can do.
+	* @param pos The piece's coords in the table given by its square.
+	* @param way The way in which the pawn is moving.
+	* @see ui.Square
+	*/
+	protected void pawnMovements(LinkedList<int[]> moves, int[] pos, int way) {
 
 		// moving
 
@@ -181,7 +211,12 @@ public enum Piece {
 
 	}
 
-	private void rockMovements(LinkedList<int[]> moves, int[] pos) {
+	/**
+	* Calculates the movements a rock can do using pathfinding.
+	* @param moves List which will be loaded with every move the rock can do.
+	* @param pos The piece's coords in the table given by its square.
+	*/
+	protected void rockMovements(LinkedList<int[]> moves, int[] pos) {
 
 		// right
 		for (int x = pos[0]; x <= 7; x++) {
@@ -226,7 +261,12 @@ public enum Piece {
 
 	}
 
-	private void horseMovements(LinkedList<int[]> moves, int[] pos) {
+	/**
+	* Calculates the movements a horse (knight) can do using pathfinding.
+	* @param moves List which will be loaded with every move the horse (knight) can do.
+	* @param pos The piece's coords in the table given by its square.
+	*/
+	protected void horseMovements(LinkedList<int[]> moves, int[] pos) {
 
 		// # 2 # 3 # //
 		// 1 # # # 4 //
@@ -268,7 +308,12 @@ public enum Piece {
 
 	}
 
-	private void bishopMovements(LinkedList<int[]> moves, int[] pos) {
+	/**
+	* Calculates the movements a bishop can do using pathfinding.
+	* @param moves List which will be loaded with every move the bishop can do.
+	* @param pos The piece's coords in the table given by its square.
+	*/
+	protected void bishopMovements(LinkedList<int[]> moves, int[] pos) {
 
 		int x, y;
 
@@ -331,7 +376,12 @@ public enum Piece {
 
 	}
 
-	private void kingMovements(LinkedList<int[]> moves, int[] pos) {
+	/**
+	* Calculates the movements a king can do using pathfinding.
+	* @param moves List which will be loaded with every move the king can do.
+	* @param pos The piece's coords in the table given by its square.
+	*/
+	protected void kingMovements(LinkedList<int[]> moves, int[] pos) {
 
 		// all left
 		if (pos[0] - 1 >= 0) {
@@ -408,17 +458,16 @@ public enum Piece {
 	}
 
 	/**
-	 * Add coords to the movements list of the currect piece and check if there are
-	 * more posibilities on the same line.
-	 *
+	 * Add coords to the movements list of the current piece and check if there are
+	 * more posibilities on the same line.<br>
 	 * Does not work with pawns
 	 *
-	 * @param moves
-	 * @param x
-	 * @param y
-	 * @return true if it has more posibilities on the same line
+	 * @param moves The movements list of the current piece.
+	 * @param x The X coord in the table.
+	 * @param y The Y coord in the table
+	 * @return true if it has more posibilities on the same line or false if not.
 	 */
-	private boolean addMove(LinkedList<int[]> moves, int x, int y) {
+	protected boolean addMove(LinkedList<int[]> moves, int x, int y) {
 
 		threatSquare(x, y);
 
@@ -464,13 +513,15 @@ public enum Piece {
 	}
 
 	/**
-	 * Given the coords x and y, checks if the square is threatened by any piece
+	 * Given the coords x and y, checks if the square is threatened by any piece.<br>
+		* In other words, checks if the LinkedList given by the method {@link #calculateMoves(int[])}
+		* contains the coords especified in the parameters.
 	 *
-	 * @param x
-	 * @param y
+	 * @param x The x coords in the table (row)
+	 * @param y The y coords in the table (col)
 	 * @return true if the square is threatened or false if not
 	 */
-	private boolean checkThreat(int x, int y) {
+	protected boolean checkThreat(int x, int y) {
 
 		if (team) {
 			if (Table.getSquare(x, y).isWhiteThreat())
@@ -485,13 +536,12 @@ public enum Piece {
 	}
 
 	/**
-	 * Given the coords, especifies that square is threatened by a team so as to be
-	 * cheked later by each king.
+	 * Given the coords, especifies that square is threatened by a team.<br>
 	 *
-	 * @param x
-	 * @param y
+	 * @param x The x coords in the table (row)
+	 * @param y The y coords in the table (col)
 	 */
-	private void threatSquare(int x, int y) {
+	protected void threatSquare(int x, int y) {
 
 		if (team)
 			Table.getSquare(x, y).setBlackThreat(true);
@@ -500,6 +550,12 @@ public enum Piece {
 
 	}
 
+	/**
+	* Called after reload assets.<br>
+	* Set the piece's graphics to the new ones, selected by the user.
+	*
+	* @see Assets
+	*/
 	public static void updateGui() {
 
 		wPawn.image = Assets.W_PAWN;
@@ -517,14 +573,27 @@ public enum Piece {
 
 	}
 
+	/**
+	* Returns the image of the piece.
+	* @return The image of the current piece.
+	*/
 	public BufferedImage getImage() {
 		return image;
 	}
 
+	/**
+	* Checks if the piece is in the white team.
+	* @return true if it is a white piece or false if it is black
+	*/
 	public boolean isWhiteTeam() {
 		return team;
 	}
 
+	/**
+	* Used for kings. returns if there exists a check or checkmate.
+	*
+	* @return true if there exists a check or false if not.
+	*/
 	public boolean isCheck() {
 		return check;
 	}

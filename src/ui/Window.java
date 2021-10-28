@@ -15,11 +15,22 @@ import gui.Assets;
 import main.App;
 import multiplayer.Client;
 
+/**
+* The window that will be open when the program starts. It contains a menu with options and the game table.
+*
+* @author Fabricio Tomás <a href="https://github.com/Fabricio-Tomas">github-profile</a>
+*/
 public class Window extends JFrame {
 	public static final long serialVersionUID = 1l;
 
+	/** The game table
+		* @see Table */
 	public Table table;
 
+	/**
+		* Creates a window in the center of the screen with a (800:600) size.<br>
+		* Adds a JMenuBar and a table with its pieces.
+		*/
 	public Window() {
 
 		setTitle("Ajedrez");
@@ -39,7 +50,10 @@ public class Window extends JFrame {
 
 	}
 
-	private void addJMenuBar() {
+	/**
+		* Adds a JMenuBar with some options (new game, multiplayer, change textures)
+		*/
+	protected void addJMenuBar() {
 
 		JMenuBar bar = new JMenuBar();
 

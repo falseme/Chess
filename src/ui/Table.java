@@ -12,16 +12,26 @@ import gui.Assets;
 import main.Piece;
 import ui.layout.TableLayout;
 
+/**
+* The table that contains the squares and the pieces. It will draw the them inside itself.
+*
+* @author Fabricio Tomás <a href="https://github.com/Fabricio-Tomas">github-profile</a>
+*/
 public class Table extends JComponent {
-	public static final long serialVersionUID = 1l;
+	private static final long serialVersionUID = 1l;
 
-	private static JComponent border;
-	private static Square[][] table;
+	private static JComponent border; // The border of the table that contains the numbers and letters for rows and cols. Given by Assets.
+	private static Square[][] table; // A list of every 64 squares that are in the table.
 
+	/** Used in multiplayer. Says in which square did the player move its piece. */
 	public static String lastMove;
 
-	private static HashMap<Integer, String> numToCoord;
+	private static HashMap<Integer, String> numToCoord; // Hashmap used to transform numbers in coords from A to H.
 
+	/**
+		* Creates a table with a TableLayout and a border: {@link #addBorder()}.
+		* @see TableLayout
+		*/
 	public Table() {
 
 		numToCoord = new HashMap<Integer, String>();
@@ -51,6 +61,9 @@ public class Table extends JComponent {
 
 	}
 
+	/**
+		* Adds pieces to the table in their initial position.
+		*/
 	public static void addPieces() {
 
 		// Black pieces
@@ -79,6 +92,10 @@ public class Table extends JComponent {
 
 	}
 
+	/**
+		* Adds some pieces into a personalized position. Used by devs when testing.
+		* @param hackroom the hackroom code.
+		*/
 	public void addPieces(long hackroom) {
 
 		if (hackroom != 0)
@@ -90,6 +107,14 @@ public class Table extends JComponent {
 
 	}
 
+	/**
+		* Deletes every piece in the table and adds new ones.<br>
+		* It also resets the shadow color of the squares.
+		* (shadow colors are used when moving a piece or when the mouse pointer is inside the square
+		* - see the class for more)
+		*
+		* @see Square
+		*/
 	public static void emptyAndReset() {
 
 		for (int y = 0; y < table.length; y++) {
@@ -108,6 +133,15 @@ public class Table extends JComponent {
 
 	}
 
+	/**
+		* Enables or disables the option to click every square in the table so as to select a piece to move.
+		* It also recalculates every piece movements if some one has moved.
+		*
+		* @param b If true, the squares will be enabled, but if false, whey will be disabled. Also if true,
+		* every piece will recalculate its movements in the case someone was moved.
+		* @see Square
+		* @see Piece
+		*/
 	public static void enableAll(boolean b) {
 
 		if (b) {
@@ -139,6 +173,12 @@ public class Table extends JComponent {
 
 	}
 
+	/**
+		* Disable the option to click all squares and only enables the option to click a list of squares.<br>
+		* Useful when moving a piece so as enable only the squares when it can be moved.
+		*
+		* @param list The list of squares to enable.
+		*/
 	public static void enable(List<int[]> list) {
 
 		if (list == null)
@@ -156,10 +196,20 @@ public class Table extends JComponent {
 
 	}
 
+	/**
+		* Returns a square by the given coords.
+		* @param x The row coord of the square.
+		* @param y The col coord of the square.
+		* @return The square in the coords given.
+		*/
 	public static Square getSquare(int x, int y) {
 		return table[x][y];
 	}
 
+	/**
+		* Returns the hole square list in the table.
+		* @return A list with the 64 squares of the table.
+		*/
 	public static Square[][] getTable() {
 		return table;
 	}
@@ -170,6 +220,12 @@ public class Table extends JComponent {
 		g.fillRect(0, 0, getWidth(), getHeight());
 	}
 
+	/**
+		* Replace the pieces in the squares of this table by the pieces in the squares given.<br>
+		* After that the method {@link #enableAll(boolean)} (boolean : true) is called so as to recalculate movements.
+		* @param table A list with 64 squares.
+		* @see Square
+		*/
 	public static void replaceTable(Square[][] table) {
 
 		for (int y = 0; y < table.length; y++) {
@@ -191,6 +247,12 @@ public class Table extends JComponent {
 
 	}
 
+	/**
+		* Updates the graphics of the table and each square.<br>
+		* Also updates the graphics of each piece.<br>
+		* Every texture is given by the Assets.
+		* @see Assets
+		*/
 	public static void updateGui() {
 
 		border.repaint();
@@ -207,7 +269,12 @@ public class Table extends JComponent {
 
 	}
 
-	private void addBorder() {
+	/**
+		* Adds a border to the table with nums and letters written for rows and cols.
+		* Given by the Assets.
+		* @see Assets
+		*/
+	protected void addBorder() {
 
 		border = new JComponent() {
 			public static final long serialVersionUID = 1l;

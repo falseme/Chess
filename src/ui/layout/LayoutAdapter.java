@@ -5,6 +5,11 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.LayoutManager;
 
+/**
+* Adapter class for the interface LayoutManager. Used to create an easier way to crete layouts.
+*
+* @author Fabricio Tomás <a href="https://github.com/Fabricio-Tomas">github-profile</a>
+*/
 public class LayoutAdapter implements LayoutManager {
 
 	@Override

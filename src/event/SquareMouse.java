@@ -10,21 +10,46 @@ import main.Piece;
 import ui.Square;
 import ui.Table;
 
+/**
+* Mouse listener class. Used to check pieces in a square and move them in the table.
+* It also implements some mechanics as castilng, passant pawn capture and pawn promotion.<br>
+*
+* @author Fabricio Tomás <a href="https://github.com/Fabricio-Tomas">github-profile</a>
+*/
 public class SquareMouse extends MouseAdapter {
 
-	private static boolean whiteMoving = true;
+	private static boolean whiteMoving = true; // True if the white team is doing the moving or false if not.
 
-	private Square owner;
-	private static Square moving; // contains the square with the piece which is moving;
+	private Square owner; // The squre which has added the mouse listener.
+	private static Square moving; // The square that has the piece which was selected to move
 
-	private boolean in = false;
+	private boolean in = false; // true if the mouse pointer is inside or false if it is outside
 
+	/**
+	* Creates a listener with a parent from the Square class. <br>
+	* How to use: <br>
+	* Square square = new Square(img, x, y); <br>
+	* square.addMouseListener(new SquareMouse(square));
+	*
+	* @param owner The parent object which this listener will work with.
+	*/
 	public SquareMouse(Square owner) {
 
 		this.owner = owner;
 
 	}
 
+	/**
+	* Called when mouse is clicked inside the OWNER (square) object.<br>
+	* It selects or unselects the square clicked so as to let the player move the piece in the square or select another.<br>
+	* When moving, checks for castling movements, passant captures or promotions at last row.<br>
+	* When promoting, opens a JOptionPane to select a piece.<br>
+	* After moving changes the player's turn, from wite to black or from black to white, if offline.<br><br>
+	*
+	* Uses the method Table.enable and Table.enableAll to set which square is clickable or not.
+	* @param e - object from java.awt.event.MouseEvent. necessary in the MouseListener.
+	* @see Table
+	*/
 	public void clicked(MouseEvent e) {
 
 		if (App.CLIENT != null) {
@@ -50,7 +75,7 @@ public class SquareMouse extends MouseAdapter {
 
 			moving.getPiece().moved = true;
 
-			// if it is a king > check if the movement is a castling
+			// if it is a king => check if the movement is a castling
 			if (moving.getPiece() == Piece.wKing && owner.getPiece() == Piece.wRock
 					|| moving.getPiece() == Piece.bKing && owner.getPiece() == Piece.bRock) {
 
@@ -220,6 +245,9 @@ public class SquareMouse extends MouseAdapter {
 
 	}
 
+	/**
+	* Sets the statics variables to default (Any piece is selected to move and it is the white's turn to move).
+	*/
 	public static void reset() {
 
 		whiteMoving = true;
@@ -227,6 +255,9 @@ public class SquareMouse extends MouseAdapter {
 
 	}
 
+	/**
+	* Used when offline. Switches the player turn.
+	*/
 	public static void switchDefaultTurn() {
 
 		whiteMoving = !whiteMoving;

@@ -12,17 +12,34 @@ import event.SquareMouse;
 import ui.Square;
 import ui.Table;
 
+/**
+* Used to make a multiplayer (LAN) game between two players.
+*
+* @author Fabricio Tomás <a href="https://github.com/Fabricio-Tomas">github-profile</a>
+*/
 public class Client implements Runnable {
 
+	/** The port that the client will use to send or receive data. */
 	public static final int port = 9895;
+	/** The second port that the other client will use to send or receive data. */
 	public static final int port2 = Client.port + 1;
 	private int sendPort, receivePort;
 	private String other;
 
+	/**True if it is this client turn to move or false if not*/
 	public boolean turn = false;
 
-	ServerWindow window;
+	private ServerWindow window; // a window where to display error, warning or information messages.
 
+	/**
+	* Creates a client and connects it to another by the given host. <br>
+	* The client created with this constructor will have the black pieces. <br>
+	* Uses the port1 to send data and the port2 to receive data. <br>
+	* Also opens a ServerWindow to show information about the connection state.
+	*
+	* @param host The IPV4 connection of the other player.
+	* @see ServerWindow
+	*/
 	public Client(String host) {
 
 		window = new ServerWindow();
@@ -58,6 +75,14 @@ public class Client implements Runnable {
 
 	}
 
+	/**
+	* Creates a client without a connection. It waits to another player to connect. <br>
+	* The client created with this constructor will have the white pieces. <br>
+	* Uses the port2 to send data and the port1 to receive data. <br>
+	* Also opens a ServerWindow to shoe information about the connection state.
+	*
+	* @see ServerWindow
+	*/
 	public Client() {
 
 		turn = true;
@@ -119,7 +144,14 @@ public class Client implements Runnable {
 
 	}
 
-	private void receiveData() {
+	/**
+	* using the port1 or port2 creates a ServerSocket and receive data from the other player about the pieces positions. <br>
+	* If it can't, shows an error message in the serverWindow.<br>
+	* All of this is done in a new Thread using the {@link #run()} method from the Runnable interface.
+	*
+	* @see ServerWindow
+	*/
+	protected void receiveData() {
 
 		window.writeLine("Conectado a: " + other);
 
@@ -128,6 +160,12 @@ public class Client implements Runnable {
 
 	}
 
+	/**
+	* Creates a new Thread and try to send data about the pieces positions to the other player using the port1 and port2. <br>
+	* If it can't, shows and error message in the serverWindow.
+	*
+	* @see ServerWindow
+	*/
 	public void sendData() {
 
 		Thread send = new Thread(new Runnable() {
