@@ -1,5 +1,9 @@
 # Chess made in Java
 
+![](https://img.shields.io/github/tag/Fabricio-Tomas/Chess.svg)
+![](https://img.shields.io/github/release/Fabricio-Tomas/Chess.svg)
+![](https://img.shields.io/github/issues/Fabricio-Tomas/Chess.svg)
+
 ### Features:
 - Offline games against a friend.
 - Mulltiplayer games (LAN).
