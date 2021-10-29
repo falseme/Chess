@@ -432,6 +432,7 @@ public enum Piece {
 
 		if (!moved) {
 
+			//checks if some squares are threatened, empty or with non-moved pieces to castle correctly.
 			Piece leftRock = Table.getSquare(0, pos[1]).getPiece();
 			Piece rightRock = Table.getSquare(7, pos[1]).getPiece();
 
@@ -453,8 +454,8 @@ public enum Piece {
 						&& Table.getSquare(pos[0] + 2, pos[1]).getPiece() == null
 						&& ((rightRock == Piece.wRock || rightRock == Piece.bRock || rightRock == Piece.wRock2 || rightRock == Piece.bRock2)
 						&& rightRock.team == team) && !rightRock.moved) {
-					if (!Table.getSquare(pos[0] - 2, pos[1]).isWhiteThreat() && team
-							|| !Table.getSquare(pos[0] - 2, pos[1]).isBlackThreat() && !team)
+					if (!Table.getSquare(pos[0] + 2, pos[1]).isWhiteThreat() && team
+							|| !Table.getSquare(pos[0] + 2, pos[1]).isBlackThreat() && !team)
 						moves.add(new int[] { 7, pos[1] });
 				}
 			}
