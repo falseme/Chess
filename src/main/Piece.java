@@ -394,7 +394,9 @@ public enum Piece {
 	}
 
 	/**
-	* Calculates the movements a king can do using pathfinding.
+	* Calculates the movements a king can do using pathfinding.<br>
+	* Also checks castling (Looks if there are empty squares in the way and
+	* even if they are not in the path of an enemy piece).
 	* @param moves List which will be loaded with every move the king can do.
 	* @param pos The piece's coords in the table given by its square.
 	*/
@@ -531,7 +533,7 @@ public enum Piece {
 	}
 
 	/**
-	 * Given the coords x and y, checks if the square is threatened by any piece.<br>
+	 * Given the coords x and y, checks if the square is threatened by any enemy piece.<br>
 		* In other words, checks if the LinkedList given by the method {@link #calculateMoves(int[])}
 		* contains the coords especified in the parameters.
 	 *
