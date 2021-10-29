@@ -76,7 +76,7 @@ public class Table extends JComponent {
 		table[4][0].addPiece(Piece.bKing);
 		table[5][0].addPiece(Piece.bBishop);
 		table[6][0].addPiece(Piece.bHorse);
-		table[7][0].addPiece(Piece.bRock);
+		table[7][0].addPiece(Piece.bRock2);
 
 		// White pieces
 		for (int i = 0; i < table.length; i++)
@@ -88,7 +88,7 @@ public class Table extends JComponent {
 		table[4][7].addPiece(Piece.wKing);
 		table[5][7].addPiece(Piece.wBishop);
 		table[6][7].addPiece(Piece.wHorse);
-		table[7][7].addPiece(Piece.wRock);
+		table[7][7].addPiece(Piece.wRock2);
 
 	}
 

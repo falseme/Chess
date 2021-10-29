@@ -76,8 +76,8 @@ public class SquareMouse extends MouseAdapter {
 			moving.getPiece().moved = true;
 
 			// if it is a king => check if the movement is a castling
-			if (moving.getPiece() == Piece.wKing && owner.getPiece() == Piece.wRock
-					|| moving.getPiece() == Piece.bKing && owner.getPiece() == Piece.bRock) {
+			if ((moving.getPiece() == Piece.wKing && (owner.getPiece() == Piece.wRock || owner.getPiece() == Piece.wRock2))
+					|| (moving.getPiece() == Piece.bKing && (owner.getPiece() == Piece.bRock || owner.getPiece() == Piece.bRock2))) {
 
 				if (owner.getPos()[0] == 0) {
 

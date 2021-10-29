@@ -2,4 +2,5 @@
 /res/
 /doc/
 .git
-.rar
+*.rar
+*.zip

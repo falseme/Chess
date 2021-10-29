@@ -20,6 +20,11 @@ public enum Piece {
 	wPawn(Assets.W_PAWN, true), wRock(Assets.W_ROCK, true), wHorse(Assets.W_HORSE, true),
 	wBishop(Assets.W_BISHOP, true), wQueen(Assets.W_QUEEN, true), wKing(Assets.W_KING, true),
 
+	// Pieces added to solved a bug with the castilng function.
+	// when castilg, the var "moved" is used to check the rocks and it is imposible to have a same piece with different vars.
+	wRock2(Assets.W_ROCK, true),
+	bRock2(Assets.B_ROCK, false),
+
 	bPawn(Assets.B_PAWN, false), bRock(Assets.B_ROCK, false), bHorse(Assets.B_HORSE, false),
 	bBishop(Assets.B_BISHOP, false), bQueen(Assets.B_QUEEN, false), bKing(Assets.B_KING, false);
 
@@ -83,6 +88,18 @@ public enum Piece {
 			break;
 
 		case bRock:
+
+			rockMovements(moves, pos);
+
+			break;
+
+		case wRock2:
+
+			rockMovements(moves, pos);
+
+			break;
+
+		case bRock2:
 
 			rockMovements(moves, pos);
 
@@ -422,8 +439,8 @@ public enum Piece {
 				if (Table.getSquare(pos[0] - 1, pos[1]).getPiece() == null
 						&& Table.getSquare(pos[0] - 2, pos[1]).getPiece() == null
 						&& Table.getSquare(pos[0] - 3, pos[1]).getPiece() == null
-						&& ((leftRock == Piece.wRock || leftRock == Piece.bRock) && leftRock.team == team)
-						&& !leftRock.moved) {
+						&& ((leftRock == Piece.wRock || leftRock == Piece.bRock || leftRock == Piece.wRock2 || leftRock == Piece.bRock2)
+						&& leftRock.team == team) && !leftRock.moved) {
 					if (!Table.getSquare(pos[0] - 2, pos[1]).isWhiteThreat() && team
 							|| !Table.getSquare(pos[0] - 2, pos[1]).isBlackThreat() && !team)
 						moves.add(new int[] { 0, pos[1] });
@@ -434,8 +451,8 @@ public enum Piece {
 			if (rightRock != null) {
 				if (Table.getSquare(pos[0] + 1, pos[1]).getPiece() == null
 						&& Table.getSquare(pos[0] + 2, pos[1]).getPiece() == null
-						&& ((rightRock == Piece.wRock || rightRock == Piece.bRock) && rightRock.team == team)
-						&& !rightRock.moved) {
+						&& ((rightRock == Piece.wRock || rightRock == Piece.bRock || rightRock == Piece.wRock2 || rightRock == Piece.bRock2)
+						&& rightRock.team == team) && !rightRock.moved) {
 					if (!Table.getSquare(pos[0] - 2, pos[1]).isWhiteThreat() && team
 							|| !Table.getSquare(pos[0] - 2, pos[1]).isBlackThreat() && !team)
 						moves.add(new int[] { 7, pos[1] });
@@ -570,6 +587,8 @@ public enum Piece {
 		bBishop.image = Assets.B_BISHOP;
 		bQueen.image = Assets.B_QUEEN;
 		bKing.image = Assets.B_KING;
+		wRock2.image = Assets.W_ROCK;
+		bRock2.image = Assets.B_ROCK;
 
 	}
 
