@@ -29,7 +29,9 @@ public class Client implements Runnable {
 	/**True if it is this client turn to move or false if not*/
 	public boolean turn = false;
 
-	private ServerWindow window; // a window where to display error, warning or information messages.
+	public boolean connected = false;
+
+	private ServerWindow window = null; // a window where to display error, warning or information messages.
 
 	/**
 	* Creates a client and connects it to another by the given host. <br>
@@ -42,16 +44,17 @@ public class Client implements Runnable {
 	*/
 	public Client(String host) {
 
-		window = new ServerWindow();
-		window.setVisible(true);
+		connect(null,0);
+
+		window = new ServerWindow(this);
 
 		other = host;
 
 		sendPort = Client.port;
 		receivePort = Client.port2;
 
-		window.writeLine(sendPort + " -send");
-		window.writeLine(receivePort + " -receive");
+		window.writeLine(sendPort + " -send port");
+		window.writeLine(receivePort + " -receive port");
 
 		try {
 
@@ -71,6 +74,11 @@ public class Client implements Runnable {
 
 			e.printStackTrace();
 
+			window.writeLine("----------");
+			window.writeLine("ERROR");
+			window.writeLine(e.toString());
+			window.writeLine("----------");
+
 		}
 
 	}
@@ -85,16 +93,17 @@ public class Client implements Runnable {
 	*/
 	public Client() {
 
+		connect(null,0);
+
 		turn = true;
 
 		sendPort = Client.port2;
 		receivePort = Client.port;
 
-		window = new ServerWindow();
-		window.setVisible(true);
+		window = new ServerWindow(this);
 
-		window.writeLine(sendPort + " -send");
-		window.writeLine(receivePort + " -receive");
+		window.writeLine(sendPort + " -send port");
+		window.writeLine(receivePort + " -receive port");
 
 		try {
 			window.writeLine("Tu dirección IP: " + InetAddress.getLocalHost().getHostAddress());
@@ -126,13 +135,14 @@ public class Client implements Runnable {
 
 					receiveData();
 
-				} catch (IOException e) {
+				} catch (Exception e) {
 
 					e.printStackTrace();
 
-				} catch (ClassNotFoundException e) {
-
-					e.printStackTrace();
+					window.writeLine("----------");
+					window.writeLine("ERROR");
+					window.writeLine(e.toString());
+					window.writeLine("----------");
 
 				}
 
@@ -191,7 +201,7 @@ public class Client implements Runnable {
 
 					window.writeLine("----------");
 					window.writeLine("ERROR");
-					window.writeLine(e.getMessage());
+					window.writeLine(e.toString());
 					window.writeLine("----------");
 
 				}
@@ -232,25 +242,30 @@ public class Client implements Runnable {
 
 			server.close();
 
-		} catch (IOException e) {
+		} catch (Exception e) {
 
 			e.printStackTrace();
 
 			window.writeLine("----------");
 			window.writeLine("ERROR");
-			window.writeLine(e.getMessage());
-			window.writeLine("----------");
-
-		} catch (ClassNotFoundException e) {
-
-			e.printStackTrace();
-
-			window.writeLine("----------");
-			window.writeLine("ERROR");
-			window.writeLine(e.getMessage());
+			window.writeLine(e.toString());
 			window.writeLine("----------");
 
 		}
+
+	}
+
+	public void connect(String host, int port) {
+
+		connected = true;
+
+	}
+
+	public void disconnect() {
+
+		other = null;
+		turn = false;
+		window = null;
 
 	}
 

@@ -87,20 +87,24 @@ public class Window extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				String[] options = new String[] { "HOST", "CLIENTE" };
+				String[] options = new String[] { "CREAR SERVIDOR LAN", "CONECTARSE A UN SERVIDOR LAN" };
 
-				int option = JOptionPane.showOptionDialog(Window.this, "Desea hostear o ser un cliente", "Advertencia",
+				int option = JOptionPane.showOptionDialog(Window.this, "Desea crear un servidor o conectarse a uno", "Advertencia",
 						JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
 
-				if (option == 0) {
-					App.CLIENT = new Client();
-				} else {
+				if(App.CLIENT == null || !App.CLIENT.connected) {
 
-					String host = JOptionPane.showInputDialog("Escriba la dirección IP del host");
-					if (host == null || host.isEmpty())
-						return;
+					if (option == 0) {
+						App.CLIENT = new Client();
+					} else if (option == 1) {
 
-					App.CLIENT = new Client(host);
+						String host = JOptionPane.showInputDialog("Escriba la dirección IP del host");
+						if (host == null || host.isEmpty())
+							return;
+
+						App.CLIENT = new Client(host);
+					}
+
 				}
 
 			}
