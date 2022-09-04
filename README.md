@@ -11,7 +11,7 @@
 ------------
 
 ### Download:
-- Downloading the code and executing it in cmd (windows) (**not recomended**)
+- Downloading the code and executing it in cmd
 
 It is necessary to download also the *res* folder and store it in the same directory as the *src* folder before executing the following commands.
 
@@ -23,12 +23,12 @@ It is necessary to download also the *res* folder and store it in the same direc
   ```
 
 - Downloading the lastest release (recomended)
-[Just clicking here](https://github.com/Fabricio-Tomas/Chess/releases).
+[Just clicking here](https://github.com/falseme/Chess/releases).
 
 ------------
 
 ### Documentation:
-- Can be found with the release download link, above or [here](https://github.com/Fabricio-Tomas/Chess/releases).
+- Can be found with the release download link, above or [here](https://github.com/falseme/Chess/releases).
 - Also can be generated in cmd using the *src* folder
 
 ------------
